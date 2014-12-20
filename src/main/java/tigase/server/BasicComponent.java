@@ -859,9 +859,37 @@ public class BasicComponent
 	 *
 	 * @return a value of <code>boolean</code>
 	 */
+	public boolean isUnassignedLocalDomain(String domain) {
+		return (vHostManager != null)
+				? vHostManager.isUnassignedLocalDomain(domain)
+				: false;
+	}
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 */
 	public boolean isLocalDomainOrComponent(String domain) {
 		return (vHostManager != null)
 				? vHostManager.isLocalDomainOrComponent(domain)
+				: false;
+	}
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 */
+	public boolean isUnassignedLocalDomainOrComponent(String domain) {
+		return (vHostManager != null)
+				? vHostManager.isUnassignedLocalDomainOrComponent(domain)
 				: false;
 	}
 

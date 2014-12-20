@@ -69,7 +69,27 @@ public interface VHostManagerIfc {
 	 *
 	 * 
 	 */
+	boolean isUnassignedLocalDomain(String domain);
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 */
 	boolean isLocalDomainOrComponent(String domain);
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 */
+	boolean isUnassignedLocalDomainOrComponent(String domain);
 
 	/**
 	 * This method checks whether anonymous login is enabled for a given domain.

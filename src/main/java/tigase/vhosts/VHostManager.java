@@ -470,9 +470,34 @@ public class VHostManager
 	 */
 	@Override
 	public boolean isLocalDomain(String domain) {
+		return repo.contains(domain);
+	}
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 *
+	 * @return a value of <code>boolean</code>
+	 */
+	@Override
+	public boolean isUnassignedLocalDomain(String domain) {
 		++isLocalDomainCalls;
 
-		return repo.contains(domain);
+		VHostItem vhost = repo.getItem(domain);
+		if (vhost != null) {
+			String[] comps = vhost.getComps();
+			if (comps != null && comps.length > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -501,6 +526,39 @@ public class VHostManager
 				VHostListener listener   = components.get(name);
 
 				result = ((listener != null) && listener.handlesNameSubdomains() && isLocalDomain(
+						basedomain));
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Method description
+	 *
+	 *
+	 * @param domain
+	 *
+	 *
+	 *
+	 * @return a value of <code>boolean</code>
+	 */
+	@Override
+	public boolean isUnassignedLocalDomainOrComponent(String domain) {
+		boolean result = isUnassignedLocalDomain(domain);
+
+		if (!result) {
+			result = registeredComponentDomains.contains(domain);
+		}
+		if (!result) {
+			int idx = domain.indexOf('.');
+
+			if (idx > 0) {
+				String        name       = domain.substring(0, idx);
+				String        basedomain = domain.substring(idx + 1);
+				VHostListener listener   = components.get(name);
+
+				result = ((listener != null) && listener.handlesNameSubdomains() && isUnassignedLocalDomain(
 						basedomain));
 			}
 		}

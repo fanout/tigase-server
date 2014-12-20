@@ -771,7 +771,7 @@ public class SessionManager
 	 */
 	@Override
 	public Element getDiscoInfo(String node, JID jid, JID from) {
-		if ((jid != null) && (getName().equals(jid.getLocalpart()) || isLocalDomain(jid
+		if ((jid != null) && (getName().equals(jid.getLocalpart()) || isUnassignedLocalDomain(jid
 				.toString()))) {
 			Element query = super.getDiscoInfo(node, jid, from);
 
@@ -1524,7 +1524,7 @@ public class SessionManager
 
 		JID to = packet.getStanzaTo();
 
-		if ((to != null) && isLocalDomain(to.toString())) {
+		if ((to != null) && isUnassignedLocalDomain(to.toString())) {
 			if (packet.getElemName() == "message") {
 
 				// Yes this packet is for admin....
@@ -1566,7 +1566,7 @@ public class SessionManager
 	 */
 	protected boolean processCommand(Packet pc) {
 		if ((pc.getStanzaTo() == null) ||!(getComponentId().equals(pc.getStanzaTo()) ||
-				isLocalDomain(pc.getStanzaTo().toString()))) {
+				isUnassignedLocalDomain(pc.getStanzaTo().toString()))) {
 			return false;
 		}
 
@@ -2121,7 +2121,7 @@ public class SessionManager
 
 		// postTm = System.currentTimeMillis() - startTime;
 		if (!stop &&!packet.wasProcessed() && ((packet.getStanzaTo() == null) ||
-				(!isLocalDomain(packet.getStanzaTo().toString())))) {
+				(!isUnassignedLocalDomain(packet.getStanzaTo().toString())))) {
 			if (defPacketHandler.canHandle(packet, conn)) {
 				ProcessingThreads<ProcessorWorkerThread> pt = workerThreads.get(defHandlerProc
 						.id());
@@ -2452,7 +2452,7 @@ public class SessionManager
 			// Sometimes (Bosh) connection is gone and this is an error packet
 			// sent back to the original sender. This original sender might be
 			// not local....
-			if ((p.getStanzaFrom() != null) &&!isLocalDomain(p.getStanzaFrom().getDomain())) {
+			if ((p.getStanzaFrom() != null) &&!isUnassignedLocalDomain(p.getStanzaFrom().getDomain())) {
 
 				// ok just forward it there....
 				p.setPacketFrom(null);
